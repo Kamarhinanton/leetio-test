@@ -24,10 +24,10 @@ const itemList: ListItem[] = [
 
 const variants = {
   open: {
-    right: '-150rem'
+    right: '64rem'
   },
   closed: {
-    right: '64rem'
+    right: '-150rem'
   },
 }
 
