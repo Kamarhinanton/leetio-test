@@ -1,0 +1,18 @@
+@import "variables";
+
+html {
+  font-size: calc(100vw / 1440);
+  color: var(--white);
+
+  @media (width <= $mob) {
+    font-size: calc(100vw / 567);
+  }
+}
+
+.wrapper {
+  background-color: var(--grey);
+  min-height: 100%;
+}
+
+
+
