@@ -1,10 +1,15 @@
 import Head from 'next/head'
-import {Inter} from 'next/font/google'
 import Container from '@/components/ui/Container';
-import Navigation, {ListItem} from '@/components/ui/Navigation';
+import Navigation from '@/components/ui/Navigation';
+import {useRef} from "react";
+import {useGlobalContext} from "@/context/context";
 
-const inter = Inter({subsets: ['latin']})
-const itemList: ListItem[] = [
+export interface ListItem {
+  id: number;
+  title?: string;
+  description: string;
+}
+export const itemList: ListItem[] = [
   {
     id: 1,
     title: "Innovative Solutions",
@@ -58,6 +63,9 @@ const itemList: ListItem[] = [
 ];
 
 export default function Home() {
+  const selectedRef = useRef<HTMLLIElement>(null);
+  const {paragraphId} = useGlobalContext()
+
   return (
     <>
       <Head>
@@ -72,7 +80,11 @@ export default function Home() {
           in ten compelling paragraphs:</h1>
           <ul>
             {itemList.map((item) => (
-              <li key={item.id} id={`paragraph-${item.id}`}>
+              <li
+                id={`paragraph-${item.id}`}
+                ref={paragraphId === item.id ? selectedRef : null}
+                style={{ cursor: 'pointer', color: paragraphId === item.id ? 'var(--primary-color)' : 'var(--white)' }}
+                key={item.id}>
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
               </li>

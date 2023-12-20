@@ -2,41 +2,25 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import styles from'./Navigation.module.scss'
 import Burger from '@/components/ui/Burger/Burger';
 import { motion } from 'framer-motion'
-
-export interface ListItem {
-  id: number;
-  title?: string;
-  description: string;
-}
-
-const itemList: ListItem[] = [
-  { id: 1, description: 'Item 1' },
-  { id: 2, description: 'Item 2' },
-  { id: 3, description: 'Item 3' },
-  { id: 4, description: 'Item 4' },
-  { id: 5, description: 'Item 5' },
-  { id: 6, description: 'Item 6' },
-  { id: 7, description: 'Item 7' },
-  { id: 8, description: 'Item 8' },
-  { id: 9, description: 'Item 9' },
-  { id: 10, description: 'Item 10' },
-];
+import {itemList} from "../../../../pages";
+import {useGlobalContext} from "@/context/context";
 
 const variants = {
   open: {
     right: '64rem'
   },
   closed: {
-    right: '-150rem'
+    right: '-350rem'
   },
 }
 
 const Navigation = () => {
   const [opened, setOpened] = useState(false)
-  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const selectedRef = useRef<HTMLLIElement>(null);
+  const {paragraphId,updateParagraphId} = useGlobalContext()
+
   const handleItemClick = (itemId: number) => {
-    setSelectedItemId(itemId);
+    updateParagraphId(itemId)
 
     const paragraphId = `paragraph-${itemId}`;
     const paragraphElement = document.getElementById(paragraphId);
@@ -62,10 +46,12 @@ const Navigation = () => {
           <li
             key={item.id}
             onClick={() => handleItemClick(item.id)}
-            ref={selectedItemId === item.id ? selectedRef : null}
-            style={{ cursor: 'pointer', color: selectedItemId === item.id ? 'var(--primary-color)' : 'var(--white)' }}
+            ref={paragraphId === item.id ? selectedRef : null}
+            style={{ cursor: 'pointer', color: paragraphId === item.id ? 'var(--primary-color)' : 'var(--white)' }}
           >
-            {item.description}
+            <h3>
+              {item.title}
+            </h3>
           </li>
         ))}
       </ul>
