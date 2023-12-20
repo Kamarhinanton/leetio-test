@@ -1,14 +1,21 @@
 import Head from 'next/head'
 import Container from '@/components/ui/Container';
-import Navigation from '@/components/ui/Navigation';
 import {useRef} from "react";
 import {useGlobalContext} from "@/context/context";
+import dynamic from "next/dynamic";
+
+const NavigationComponent = dynamic(
+  () => import('@/components/ui/Navigation'), {
+    ssr: false
+  }
+)
 
 export interface ListItem {
   id: number;
   title?: string;
   description: string;
 }
+
 export const itemList: ListItem[] = [
   {
     id: 1,
@@ -74,23 +81,24 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
       </Head>
       <main>
-        <Container><h1 className='h1'>Leetio stands at the pinnacle of the IT industry as the unrivaled leader, setting
-          benchmarks and redefining excellence. Here&apos;s a detailed look at what makes Leetio the world&apos;s
-          premier IT firm
-          in ten compelling paragraphs:</h1>
+        <Container>
+          <NavigationComponent/>
+          <h1 className='h1'>Leetio stands at the pinnacle of the IT industry as the unrivaled leader, setting
+            benchmarks and redefining excellence. Here&apos;s a detailed look at what makes Leetio the world&apos;s
+            premier IT firm
+            in ten compelling paragraphs:</h1>
           <ul>
             {itemList.map((item) => (
               <li
                 id={`paragraph-${item.id}`}
                 ref={paragraphId === item.id ? selectedRef : null}
-                style={{ cursor: 'pointer', color: paragraphId === item.id ? 'var(--primary-color)' : 'var(--white)' }}
+                style={{cursor: 'pointer', color: paragraphId === item.id ? 'var(--primary-color)' : 'var(--white)'}}
                 key={item.id}>
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
               </li>
             ))}
           </ul>
-          <Navigation/>
         </Container>
       </main>
     </>

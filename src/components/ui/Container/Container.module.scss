@@ -4,4 +4,7 @@
   margin: 0 auto;
   padding: 40rem 500rem 1000rem 64rem;
   min-height: 100vh;
+  @media (width<=567px) {
+    padding: 40rem 64rem;
+  }
 }

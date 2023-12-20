@@ -5,4 +5,10 @@
   border-radius: 20rem;
   padding: 10rem;
   width: 350rem;
+  @media (width <= 567px) {
+    position: relative;
+    top: initial;
+    width: 100%;
+    margin: 20rem 0;
+  }
 }

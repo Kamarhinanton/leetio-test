@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode, FC, SetStateAction } from 'react';
+import {createContext, useContext, useState, ReactNode, FC, SetStateAction, useEffect} from 'react';
 
 interface GlobalContextType {
   paragraphId: number | null;
@@ -7,6 +7,11 @@ interface GlobalContextType {
 
 interface GlobalProviderProps {
   children: ReactNode;
+}
+
+interface WindowDimensions {
+  width: number
+  height: number
 }
 
 const GlobalContext = createContext<GlobalContextType | null>(null);
@@ -32,3 +37,25 @@ export const useGlobalContext = (): GlobalContextType => {
   }
   return context;
 };
+
+const getWindowDimensions = (): WindowDimensions => {
+  if (typeof window === 'undefined') return { width: 0, height: 0 }
+  const { innerWidth: width, innerHeight: height } = window
+  return {
+    width,
+    height,
+  }
+}
+export default function useWindowDimensions(): WindowDimensions {
+  const [windowDimensions, setWindowDimensions] = useState<WindowDimensions>(
+    getWindowDimensions()
+  )
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowDimensions(getWindowDimensions())
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+  return windowDimensions
+}

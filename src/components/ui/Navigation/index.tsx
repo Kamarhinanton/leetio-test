@@ -3,7 +3,7 @@ import styles from'./Navigation.module.scss'
 import Burger from '@/components/ui/Burger/Burger';
 import { motion } from 'framer-motion'
 import {itemList} from "../../../../pages";
-import {useGlobalContext} from "@/context/context";
+import useWindowDimensions, {useGlobalContext} from "@/context/context";
 
 const variants = {
   open: {
@@ -18,6 +18,7 @@ const Navigation = () => {
   const [opened, setOpened] = useState(false)
   const selectedRef = useRef<HTMLLIElement>(null);
   const {paragraphId,updateParagraphId} = useGlobalContext()
+  const { width } = useWindowDimensions()
 
   const handleItemClick = (itemId: number) => {
     updateParagraphId(itemId)
@@ -33,7 +34,7 @@ const Navigation = () => {
     setOpened((prev) => !prev)
   }, [])
 
-  return (
+  return width && width > 567 ? (
     <motion.nav className={styles['nav']}
                 animate={opened ? 'open' : 'closed'}
                 variants={variants}
@@ -60,7 +61,24 @@ const Navigation = () => {
         toggleMenu={toggleMenu}
       />
     </motion.nav>
-  );
+  ) : (
+    <nav className={styles['nav']}>
+      <ul>
+        {itemList.map((item) => (
+          <li
+            key={item.id}
+            onClick={() => handleItemClick(item.id)}
+            ref={paragraphId === item.id ? selectedRef : null}
+            style={{ cursor: 'pointer', color: paragraphId === item.id ? 'var(--primary-color)' : 'var(--white)' }}
+          >
+            <h3>
+              {item.title}
+            </h3>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
 };
 
 export default Navigation;

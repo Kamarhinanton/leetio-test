@@ -2,6 +2,9 @@ h1, .h1 {
   font-size: 60rem;
   line-height: 110%;
   font-weight: 700;
+  @media (width <= 567px) {
+    font-size: 42rem;
+  }
 }
 
 h2, h3, .h2, .h3 {

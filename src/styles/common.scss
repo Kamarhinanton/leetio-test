@@ -1,6 +1,9 @@
 html {
   font-size: calc(100vw / 1440);
   color: var(--white);
+  @media (width <= 567px) {
+    font-size: calc(100vw / 567);
+  }
 }
 
 .wrapper {
