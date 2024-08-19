@@ -1,6 +1,6 @@
 # Leetio-test
 
-**Side - Front-end**
+**Side - Front-end **
 
 ## Table of contents
 - **[Introduction](#introduction)**
